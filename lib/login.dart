@@ -49,7 +49,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     const Text(
-                      'Universitas Binaniaga',
+                      'E-Learning MySchool',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 24,
