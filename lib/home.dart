@@ -12,24 +12,21 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: _refreshData,
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildProfileCard(),
-                const SizedBox(height: 20),
-                _buildDashboardGrid(),
-                const SizedBox(height: 20),
-                _buildCompletedTasksTable(),
-                const SizedBox(height: 20),
-                _buildPendingTasks(),
-              ],
-            ),
+      body: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildProfileCard(),
+              const SizedBox(height: 20),
+              _buildDashboardGrid(),
+              const SizedBox(height: 20),
+              _buildCompletedTasksTable(),
+              const SizedBox(height: 20),
+              _buildPendingTasks(),
+            ],
           ),
         ),
       ),
@@ -58,11 +55,13 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 // Add profile tap functionality here
               },
-              child: const Hero(
+              child: Hero(
                 tag: 'profileAvatar',
                 child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/student_avatar.png'),
+                  backgroundImage: const AssetImage('assets/images/me.jpeg'),
                   radius: 50,
+                  onBackgroundImageError: (exception, stackTrace) {
+                  },
                 ),
               ),
             ),
@@ -72,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Mochamad Arry Ishaa',
+                    'Chasoul UIX',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 8),
@@ -91,14 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _refreshData() async {
-    // Implement data refresh logic here
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      // Update state if necessary
-    });
   }
 
   Widget _buildDashboardGrid() {
