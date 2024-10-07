@@ -5,9 +5,9 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
 $host = "localhost";
-$user = ""; // Fill in your database username
-$pass = ""; // Fill in your database password
-$db   = ""; // Fill in your database name
+$user = "praktikum_ahmadrifai"; // Fill in your database username
+$pass = "ahmadrifai"; // Fill in your database password
+$db   = "praktikum_ti_2022_KelompokSolev"; // Fill in your database name
 
 $connection = new mysqli($host, $user, $pass, $db);
 if ($connection->connect_error) {
