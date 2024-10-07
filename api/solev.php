@@ -18,7 +18,11 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
     case 'GET':
-        handleGet($connection);
+        if (isset($_GET['type']) && $_GET['type'] == 'agenda') {
+            handleGetAgenda($connection);
+        } else {
+            handleGet($connection);
+        }
         break;
     case 'POST':
         handlePost($connection);
@@ -49,6 +53,34 @@ function handleGet($connection) {
         }
     } else {
         $sql = "SELECT * FROM info";
+        $result = $connection->query($sql);
+        if ($result && $result->num_rows > 0) {
+            $data = $result->fetch_all(MYSQLI_ASSOC);
+            echo json_encode($data);
+        } else {
+            echo json_encode(["error" => "No data found"]);
+        }
+    }
+    
+    // Add error checking
+    if (!$result) {
+        echo json_encode(["error" => "Query failed: " . $connection->error]);
+    }
+}
+
+function handleGetAgenda($connection) {
+    if (isset($_GET['kd_agenda'])) {
+        $kd_agenda = $connection->real_escape_string($_GET['kd_agenda']);
+        $sql = "SELECT kd_agenda, judul_agenda, isi_agenda, tgl_post_agenda, status_agenda, kd_petugas FROM agenda WHERE kd_agenda = '$kd_agenda'";
+        $result = $connection->query($sql);
+        if ($result && $result->num_rows > 0) {
+            $data = $result->fetch_assoc();
+            echo json_encode($data);
+        } else {
+            echo json_encode(["error" => "No data found for the given kd_agenda"]);
+        }
+    } else {
+        $sql = "SELECT kd_agenda, judul_agenda, isi_agenda, tgl_post_agenda, status_agenda, kd_petugas FROM agenda";
         $result = $connection->query($sql);
         if ($result && $result->num_rows > 0) {
             $data = $result->fetch_all(MYSQLI_ASSOC);

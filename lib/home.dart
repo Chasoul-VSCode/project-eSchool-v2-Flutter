@@ -122,17 +122,29 @@ class _HomeScreenState extends State<HomeScreen> {
       childAspectRatio: 1.1,
       children: [
         _buildComplexDashboardItem(
-            Icons.book, 'Courses', Colors.blue, '5 Active', () {}),
+            Icons.book, 'Courses', Colors.blue, '5 Active', () {
+          _showCoursesScreen(context);
+        }),
         _buildComplexDashboardItem(
-            Icons.assignment, 'Assignments', Colors.green, '3 Due', () {}),
+            Icons.assignment, 'Assignments', Colors.green, '3 Due', () {
+          _showAssignmentsScreen(context);
+        }),
         _buildComplexDashboardItem(Icons.calendar_today, 'Schedule',
-            Colors.orange, 'Next: Math', () {}),
+            Colors.orange, 'Next: Math', () {
+          _showScheduleScreen(context);
+        }),
         _buildComplexDashboardItem(
-            Icons.grade, 'Grades', Colors.red, 'GPA: 3.8', () {}),
+            Icons.grade, 'Grades', Colors.red, 'GPA: 3.8', () {
+          _showGradesScreen(context);
+        }),
         _buildComplexDashboardItem(
-            Icons.library_books, 'Library', Colors.purple, '2 Books', () {}),
+            Icons.library_books, 'Library', Colors.purple, '2 Books', () {
+          _showLibraryScreen(context);
+        }),
         _buildComplexDashboardItem(
-            Icons.people, 'Clubs', Colors.teal, '3 Joined', () {}),
+            Icons.people, 'Clubs', Colors.teal, '3 Joined', () {
+          _showClubsScreen(context);
+        }),
       ],
     );
   }
@@ -184,6 +196,299 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  void _showCoursesScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: const Text('Courses'),
+            backgroundColor: Colors.blue,
+          ),
+          body: Container(
+            color: isDarkMode ? Colors.grey[900] : Colors.grey[100],
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                _buildCourseItem('Mathematics', 'Prof. Smith', '09:00 AM - 10:30 AM'),
+                _buildCourseItem('Physics', 'Dr. Johnson', '11:00 AM - 12:30 PM'),
+                _buildCourseItem('Computer Science', 'Prof. Williams', '02:00 PM - 03:30 PM'),
+                _buildCourseItem('English Literature', 'Dr. Brown', '04:00 PM - 05:30 PM'),
+                _buildCourseItem('History', 'Prof. Davis', '06:00 PM - 07:30 PM'),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCourseItem(String courseName, String instructor, String schedule) {
+    return Card(
+      color: isDarkMode ? Colors.grey[800] : Colors.white,
+      margin: const EdgeInsets.only(bottom: 16),
+      child: ListTile(
+        leading: Icon(Icons.book, color: Colors.blue),
+        title: Text(courseName, style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(instructor, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
+            Text(schedule, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showAssignmentsScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: const Text('Assignments'),
+            backgroundColor: Colors.green,
+          ),
+          body: Container(
+            color: isDarkMode ? Colors.grey[900] : Colors.grey[100],
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                _buildAssignmentItem('Math Problem Set', 'Mathematics', '05/25', 'Due'),
+                _buildAssignmentItem('Physics Lab Report', 'Physics', '05/27', 'Due'),
+                _buildAssignmentItem('English Essay', 'English Literature', '05/30', 'Due'),
+                _buildAssignmentItem('History Research Paper', 'History', '06/05', 'Upcoming'),
+                _buildAssignmentItem('Programming Project', 'Computer Science', '06/10', 'Upcoming'),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAssignmentItem(String title, String subject, String dueDate, String status) {
+    return Card(
+      color: isDarkMode ? Colors.grey[800] : Colors.white,
+      margin: const EdgeInsets.only(bottom: 16),
+      child: ListTile(
+        leading: Icon(Icons.assignment, color: status == 'Due' ? Colors.red : Colors.green),
+        title: Text(title, style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
+        subtitle: Text(subject, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(dueDate, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
+            Text(status, style: TextStyle(color: status == 'Due' ? Colors.red : Colors.green)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showScheduleScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: const Text('Schedule'),
+            backgroundColor: Colors.orange,
+          ),
+          body: Container(
+            color: isDarkMode ? Colors.grey[900] : Colors.grey[100],
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                _buildScheduleItem('Mathematics', '09:00 AM - 10:30 AM', 'Room 101'),
+                _buildScheduleItem('Physics', '11:00 AM - 12:30 PM', 'Lab 2'),
+                _buildScheduleItem('Lunch Break', '12:30 PM - 02:00 PM', 'Cafeteria'),
+                _buildScheduleItem('Computer Science', '02:00 PM - 03:30 PM', 'Computer Lab'),
+                _buildScheduleItem('English Literature', '04:00 PM - 05:30 PM', 'Room 205'),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildScheduleItem(String subject, String time, String location) {
+    return Card(
+      color: isDarkMode ? Colors.grey[800] : Colors.white,
+      margin: const EdgeInsets.only(bottom: 16),
+      child: ListTile(
+        leading: Icon(Icons.schedule, color: Colors.orange),
+        title: Text(subject, style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
+        subtitle: Text(location, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
+        trailing: Text(time, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
+      ),
+    );
+  }
+
+  void _showGradesScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: const Text('Grades'),
+            backgroundColor: Colors.red,
+          ),
+          body: Container(
+            color: isDarkMode ? Colors.grey[900] : Colors.grey[100],
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                _buildGradeItem('Mathematics', 'A', '95%'),
+                _buildGradeItem('Physics', 'A-', '92%'),
+                _buildGradeItem('Computer Science', 'A+', '98%'),
+                _buildGradeItem('English Literature', 'B+', '88%'),
+                _buildGradeItem('History', 'A-', '91%'),
+                Card(
+                  color: isDarkMode ? Colors.grey[800] : Colors.white,
+                  margin: const EdgeInsets.only(top: 16),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      'Current GPA: 3.8',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGradeItem(String subject, String grade, String percentage) {
+    return Card(
+      color: isDarkMode ? Colors.grey[800] : Colors.white,
+      margin: const EdgeInsets.only(bottom: 16),
+      child: ListTile(
+        leading: Icon(Icons.grade, color: Colors.red),
+        title: Text(subject, style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(grade, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black)),
+            Text(percentage, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showLibraryScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: const Text('Library'),
+            backgroundColor: Colors.purple,
+          ),
+          body: Container(
+            color: isDarkMode ? Colors.grey[900] : Colors.grey[100],
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                _buildLibraryItem('Introduction to Algorithms', 'Thomas H. Cormen', '06/05'),
+                _buildLibraryItem('To Kill a Mockingbird', 'Harper Lee', '06/10'),
+                Card(
+                  color: isDarkMode ? Colors.grey[800] : Colors.white,
+                  margin: const EdgeInsets.only(top: 16),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      'Books Borrowed: 2',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLibraryItem(String title, String author, String dueDate) {
+    return Card(
+      color: isDarkMode ? Colors.grey[800] : Colors.white,
+      margin: const EdgeInsets.only(bottom: 16),
+      child: ListTile(
+        leading: Icon(Icons.book, color: Colors.purple),
+        title: Text(title, style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
+        subtitle: Text(author, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text('Due:', style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
+            Text(dueDate, style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showClubsScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: const Text('Clubs'),
+            backgroundColor: Colors.teal,
+          ),
+          body: Container(
+            color: isDarkMode ? Colors.grey[900] : Colors.grey[100],
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                _buildClubItem('Coding Club', 'Tuesdays, 4:00 PM', 'Computer Lab'),
+                _buildClubItem('Debate Society', 'Wednesdays, 5:00 PM', 'Auditorium'),
+                _buildClubItem('Chess Club', 'Thursdays, 3:30 PM', 'Room 103'),
+                Card(
+                  color: isDarkMode ? Colors.grey[800] : Colors.white,
+                  margin: const EdgeInsets.only(top: 16),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      'Joined Clubs: 3',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildClubItem(String clubName, String meetingTime, String location) {
+    return Card(
+      color: isDarkMode ? Colors.grey[800] : Colors.white,
+      margin: const EdgeInsets.only(bottom: 16),
+      child: ListTile(
+        leading: Icon(Icons.group, color: Colors.teal),
+        title: Text(clubName, style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
+        subtitle: Text(location, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
+        trailing: Text(meetingTime, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
       ),
     );
   }

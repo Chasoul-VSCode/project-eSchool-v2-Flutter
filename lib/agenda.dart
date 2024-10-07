@@ -21,7 +21,7 @@ class AgendaScreenState extends State<AgendaScreen> {
 
   Future<void> _fetchData() async {
     try {
-      final response = await http.get(Uri.parse('http://172.20.10.4/api_flutter/solev.php'));
+      final response = await http.get(Uri.parse('http://192.168.1.9/api_flutter/agenda.php'));
       if (response.statusCode == 200) {
         final decodedData = json.decode(response.body);
         if (decodedData is List) {
@@ -87,7 +87,7 @@ class AgendaScreenState extends State<AgendaScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      item['judul_info'] ?? '',
+                                      item['judul_agenda'] ?? '',
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 18,
@@ -96,7 +96,7 @@ class AgendaScreenState extends State<AgendaScreen> {
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
-                                      item['isi_info'] ?? '',
+                                      item['isi_agenda'] ?? '',
                                       style: TextStyle(
                                         color: Colors.grey[300],
                                         fontSize: 14,
@@ -107,7 +107,7 @@ class AgendaScreenState extends State<AgendaScreen> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'ID: ${item['kd_info']?.toString() ?? ''}',
+                                          'ID: ${item['tgl_agenda']?.toString() ?? ''}',
                                           style: TextStyle(
                                             color: Colors.grey[400],
                                             fontSize: 12,
@@ -120,7 +120,11 @@ class AgendaScreenState extends State<AgendaScreen> {
                                             borderRadius: BorderRadius.circular(12),
                                           ),
                                           child: Text(
-                                            item['status_info'] ?? '',
+                                            (item['status_agenda'] == '1')
+                                                ? 'Proses'
+                                                : (item['status_agenda'] == '2')
+                                                    ? 'Selesai'
+                                                    : item['status_agenda'] ?? '',
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 12,

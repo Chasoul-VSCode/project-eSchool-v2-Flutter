@@ -6,7 +6,6 @@ class InfoScreen extends StatefulWidget {
   const InfoScreen({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _InfoScreenState createState() => _InfoScreenState();
 }
 
@@ -22,14 +21,16 @@ class _InfoScreenState extends State<InfoScreen> {
 
   Future<void> _fetchData() async {
     try {
-      final response = await http.get(Uri.parse('http://172.20.10.4/api_flutter/solev.php'));
+      final response = await http.get(Uri.parse('http://192.168.1.9/api_flutter/solev.php'));
       if (response.statusCode == 200) {
         final decodedData = json.decode(response.body);
         if (decodedData is List) {
-          setState(() {
-            _data = decodedData;
-            _isLoading = false;
-          });
+          if (mounted) {
+            setState(() {
+              _data = decodedData;
+              _isLoading = false;
+            });
+          }
         } else {
           throw Exception('Invalid data format');
         }
@@ -37,10 +38,10 @@ class _InfoScreenState extends State<InfoScreen> {
         throw Exception('Failed to load data: ${response.statusCode}');
       }
     } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
       if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${e.toString()}')),
         );
@@ -112,8 +113,7 @@ class _InfoScreenState extends State<InfoScreen> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          // ignore: unnecessary_string_interpolations
-                                          '${item['tgl_post_info']?.toString() ?? ''}',
+                                          item['tgl_post_info']?.toString() ?? '',
                                           style: TextStyle(
                                             color: Colors.grey[400],
                                             fontSize: 12,
@@ -126,18 +126,7 @@ class _InfoScreenState extends State<InfoScreen> {
                                             borderRadius: BorderRadius.circular(12),
                                           ),
                                           child: Text(
-                                            (() {
-                                              switch (item['status_info']) {
-                                                case '1':
-                                                  return 'Proses';
-                                                case '2':
-                                                  return 'Selesai';
-                                                case '0':
-                                                  return 'Dibatalkan';
-                                                default:
-                                                  return item['status_info'] ?? '';
-                                              }
-                                            })(),
+                                            _getStatusText(item['status_info']),
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 12,
@@ -159,5 +148,18 @@ class _InfoScreenState extends State<InfoScreen> {
               ),
       ),
     );
+  }
+
+  String _getStatusText(String? status) {
+    switch (status) {
+      case '1':
+        return 'Proses';
+      case '2':
+        return 'Selesai';
+      case '0':
+        return 'Dibatalkan';
+      default:
+        return status ?? '';
+    }
   }
 }
