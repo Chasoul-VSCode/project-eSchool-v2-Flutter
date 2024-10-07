@@ -4,12 +4,12 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
-$host = "https://praktikum-cpanel-unbin.com/";
-$user = "praktikum_ahmadrifai"; // Fill in your database username
-$pass = "ahmadrifai"; // Fill in your database password
-$db   = "praktikum_ti_2022_KelompokSolev"; // Fill in your database name
-
+$host = "localhost";
+$user = "root"; 
+$pass = ""; 
+$db   = "solev"; 
 $connection = new mysqli($host, $user, $pass, $db);
+
 if ($connection->connect_error) {
     die(json_encode(["error" => "Connection failed: " . $connection->connect_error]));
 }
@@ -39,15 +39,29 @@ $connection->close();
 function handleGet($connection) {
     if (isset($_GET['kd_info'])) {
         $kd_info = $connection->real_escape_string($_GET['kd_info']);
-        $sql = "SELECT * FROM informasi WHERE kd_info = '$kd_info'";
+        $sql = "SELECT * FROM info WHERE kd_info = '$kd_info'";
         $result = $connection->query($sql);
-        $data = $result->fetch_assoc();
+        if ($result && $result->num_rows > 0) {
+            $data = $result->fetch_assoc();
+            echo json_encode($data);
+        } else {
+            echo json_encode(["error" => "No data found for the given kd_info"]);
+        }
     } else {
-        $sql = "SELECT * FROM informasi";
+        $sql = "SELECT * FROM info";
         $result = $connection->query($sql);
-        $data = $result->fetch_all(MYSQLI_ASSOC);
+        if ($result && $result->num_rows > 0) {
+            $data = $result->fetch_all(MYSQLI_ASSOC);
+            echo json_encode($data);
+        } else {
+            echo json_encode(["error" => "No data found"]);
+        }
     }
-    echo json_encode($data);
+    
+    // Add error checking
+    if (!$result) {
+        echo json_encode(["error" => "Query failed: " . $connection->error]);
+    }
 }
 
 function handlePost($connection) {
@@ -58,7 +72,7 @@ function handlePost($connection) {
     $status_info = $connection->real_escape_string($input['status_info']);
     $kd_petugas = $connection->real_escape_string($input['kd_petugas']);
 
-    $sql = "INSERT INTO informasi (judul_info, isi_info, tgl_post_info, status_info, kd_petugas)
+    $sql = "INSERT INTO info (judul_info, isi_info, tgl_post_info, status_info, kd_petugas)
             VALUES ('$judul_info', '$isi_info', '$tgl_post_info', '$status_info', '$kd_petugas')";
     
     if ($connection->query($sql)) {
@@ -77,7 +91,7 @@ function handlePut($connection) {
     $status_info = $connection->real_escape_string($input['status_info']);
     $kd_petugas = $connection->real_escape_string($input['kd_petugas']);
 
-    $sql = "UPDATE informasi SET
+    $sql = "UPDATE info SET
             judul_info = '$judul_info',
             isi_info = '$isi_info',
             tgl_post_info = '$tgl_post_info',
@@ -95,7 +109,7 @@ function handlePut($connection) {
 function handleDelete($connection) {
     if (isset($_GET['kd_info'])) {
         $kd_info = $connection->real_escape_string($_GET['kd_info']);
-        $sql = "DELETE FROM informasi WHERE kd_info = '$kd_info'";
+        $sql = "DELETE FROM info WHERE kd_info = '$kd_info'";
         if ($connection->query($sql)) {
             echo json_encode(["message" => "Data deleted successfully"]);
         } else {
