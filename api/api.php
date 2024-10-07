@@ -4,7 +4,7 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
-$host = "localhost";
+$host = "https://praktikum-cpanel-unbin.com/";
 $user = "praktikum_ahmadrifai"; // Fill in your database username
 $pass = "ahmadrifai"; // Fill in your database password
 $db   = "praktikum_ti_2022_KelompokSolev"; // Fill in your database name
