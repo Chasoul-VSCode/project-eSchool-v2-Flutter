@@ -17,26 +17,38 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Future<void> _refreshData() async {
+    // Simulate a data refresh
+    await Future.delayed(const Duration(seconds: 2));
+    setState(() {
+      // Update your data here if needed
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: isDarkMode ? Colors.grey[900] : Colors.grey[100],
-      body: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildProfileCard(),
-              const SizedBox(height: 16),
-              _buildDashboardGrid(),
-              const SizedBox(height: 16),
-              _buildCompletedTasksTable(),
-              const SizedBox(height: 16),
-              _buildPendingTasks(),
-            ],
-          ),
+      body: RefreshIndicator(
+        onRefresh: _refreshData,
+        child: CustomScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.all(12.0),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  _buildProfileCard(),
+                  const SizedBox(height: 16),
+                  _buildDashboardGrid(),
+                  const SizedBox(height: 16),
+                  _buildCompletedTasksTable(),
+                  const SizedBox(height: 16),
+                  _buildPendingTasks(),
+                ]),
+              ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton.small(
