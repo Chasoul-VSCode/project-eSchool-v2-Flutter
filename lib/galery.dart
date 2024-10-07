@@ -6,10 +6,7 @@ class GaleryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Gallery'),
-        backgroundColor: Colors.blue,
-      ),
+      backgroundColor: Colors.grey[900],
       body: GridView.builder(
         padding: const EdgeInsets.all(16),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -20,6 +17,7 @@ class GaleryScreen extends StatelessWidget {
         itemCount: 10,
         itemBuilder: (context, index) {
           return Card(
+            color: Colors.grey[800],
             elevation: 4,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -34,11 +32,12 @@ class GaleryScreen extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.small(
         onPressed: () {
         },
         tooltip: 'Upload Image',
-        child: const Icon(Icons.add_a_photo),
+        child: const Icon(Icons.add_a_photo, color: Colors.white, size: 20),
+        backgroundColor: Colors.blue,
       ),
     );
   }

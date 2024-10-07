@@ -9,47 +9,55 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool isDarkMode = true;
+
+  void toggleTheme() {
+    setState(() {
+      isDarkMode = !isDarkMode;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: isDarkMode ? Colors.grey[900] : Colors.grey[100],
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildProfileCard(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
               _buildDashboardGrid(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
               _buildCompletedTasksTable(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
               _buildPendingTasks(),
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Implement quick action functionality
-        },
-        tooltip: 'Quick Actions',
-        child: const Icon(Icons.add),
+      floatingActionButton: FloatingActionButton.small(
+        onPressed: toggleTheme,
+        tooltip: 'Toggle Theme',
+        child: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode, size: 20),
+        backgroundColor: isDarkMode ? Colors.amber : Colors.indigo,
       ),
     );
   }
 
   Widget _buildProfileCard() {
     return Card(
-      elevation: 8,
+      color: isDarkMode ? Colors.grey[800] : Colors.white,
+      elevation: 4,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(16.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
               onTap: () {
@@ -59,29 +67,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 tag: 'profileAvatar',
                 child: CircleAvatar(
                   backgroundImage: const AssetImage('assets/images/me.jpeg'),
-                  radius: 50,
+                  radius: 30,
                   onBackgroundImageError: (exception, stackTrace) {
                   },
                 ),
               ),
             ),
-            const SizedBox(width: 20),
-            const Expanded(
+            const SizedBox(width: 12),
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Chasoul UIX',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 4),
                   Text(
                     'Teknik Informatika',
-                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                    style: TextStyle(fontSize: 12, color: isDarkMode ? Colors.grey[400] : Colors.grey[600]),
                   ),
                   Text(
                     'NPM : 12522028',
-                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                    style: TextStyle(fontSize: 12, color: isDarkMode ? Colors.grey[400] : Colors.grey[600]),
                   ),
                 ],
               ),
@@ -99,6 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
       mainAxisSpacing: 8,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
+      childAspectRatio: 1.1,
       children: [
         _buildComplexDashboardItem(
             Icons.book, 'Courses', Colors.blue, '5 Active', () {}),
@@ -119,8 +128,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildComplexDashboardItem(IconData icon, String title, Color color,
       String subtitle, VoidCallback onTap) {
     return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 2,
+      color: isDarkMode ? Colors.grey[800] : Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: InkWell(
         onTap: onTap,
         child: Container(
@@ -130,30 +140,30 @@ class _HomeScreenState extends State<HomeScreen> {
               end: Alignment.bottomRight,
               colors: [color.withOpacity(0.7), color],
             ),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(8),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(6.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(icon, size: 28, color: Colors.white),
-                const SizedBox(height: 4),
+                Icon(icon, size: 20, color: Colors.white),
+                const SizedBox(height: 2),
                 Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 10,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 1),
                 Text(
                   subtitle,
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 8,
                     color: Colors.white.withOpacity(0.8),
                   ),
                   textAlign: TextAlign.center,
@@ -168,18 +178,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildCompletedTasksTable() {
     return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 2,
+      color: isDarkMode ? Colors.grey[800] : Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Completed Tasks',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
             ListView(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -197,19 +208,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildTaskItem(String task, String subject, String date) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: const EdgeInsets.only(bottom: 6),
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(8),
+        color: isDarkMode ? Colors.grey[700] : Colors.grey[200],
+        borderRadius: BorderRadius.circular(6),
       ),
       child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         leading: const CircleAvatar(
           backgroundColor: Colors.blue,
-          child: Icon(Icons.check, color: Colors.white),
+          radius: 14,
+          child: Icon(Icons.check, color: Colors.white, size: 16),
         ),
-        title: Text(task, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(subject),
-        trailing: Text(date, style: TextStyle(color: Colors.grey.shade600)),
+        title: Text(task, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: isDarkMode ? Colors.white : Colors.black)),
+        subtitle: Text(subject, style: TextStyle(fontSize: 12, color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
+        trailing: Text(date, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600], fontSize: 12)),
       ),
     );
   }
@@ -218,11 +231,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Pending Tasks',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
         _buildPendingTaskItem('Research Paper', 'History',
             DateTime.now().add(const Duration(days: 7))),
         _buildPendingTaskItem('Group Presentation', 'Business',
@@ -235,18 +248,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildPendingTaskItem(String title, String subject, DateTime dueDate) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 12),
+      color: isDarkMode ? Colors.grey[800] : Colors.white,
+      margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
-        leading: const Icon(Icons.assignment_late, color: Colors.orange),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text('Subject: $subject'),
+        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        leading: const Icon(Icons.assignment_late, color: Colors.orange, size: 20),
+        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: isDarkMode ? Colors.white : Colors.black)),
+        subtitle: Text('Subject: $subject', style: TextStyle(fontSize: 12, color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text('Due: ${dueDate.day}/${dueDate.month}/${dueDate.year}'),
+            Text('Due: ${dueDate.day}/${dueDate.month}/${dueDate.year}', style: TextStyle(fontSize: 10, color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
             Text('${dueDate.difference(DateTime.now()).inDays} days left',
-                style: const TextStyle(color: Colors.red)),
+                style: const TextStyle(color: Colors.red, fontSize: 10)),
           ],
         ),
         onTap: () {

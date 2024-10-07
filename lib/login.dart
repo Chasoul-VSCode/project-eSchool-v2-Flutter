@@ -19,7 +19,7 @@ class LoginScreen extends StatelessWidget {
           child: Center(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -27,45 +27,45 @@ class LoginScreen extends StatelessWidget {
                     Hero(
                       tag: 'logo',
                       child: Container(
-                        height: 120,
-                        width: 120,
+                        height: 80,
+                        width: 80,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.1),
-                              blurRadius: 10,
-                              spreadRadius: 5,
+                              blurRadius: 5,
+                              spreadRadius: 2,
                             ),
                           ],
                         ),
                         child: const Icon(
                           Icons.school,
-                          size: 80,
+                          size: 50,
                           color: Colors.blue,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 15),
                     const Text(
                       'E-Learning MySchool',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 24,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 20),
                     _buildTextField('Username', Icons.person),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 15),
                     _buildTextField('Password', Icons.lock, isPassword: true),
-                    const SizedBox(height: 30),
-                    _buildLoginButton(context),
                     const SizedBox(height: 20),
+                    _buildLoginButton(context),
+                    const SizedBox(height: 10),
                     _buildForgotPasswordButton(),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 20),
                     _buildSocialLoginButtons(context),
                   ],
                 ),
@@ -81,24 +81,24 @@ class LoginScreen extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.9),
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
-            blurRadius: 5,
+            blurRadius: 3,
             spreadRadius: 1,
           ),
         ],
       ),
       child: TextField(
         obscureText: isPassword,
-        style: const TextStyle(color: Colors.black87),
+        style: const TextStyle(color: Colors.black87, fontSize: 14),
         decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: Colors.blue[700]),
+          prefixIcon: Icon(icon, color: Colors.blue[700], size: 20),
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey[600]),
+          hintStyle: TextStyle(color: Colors.grey[600], fontSize: 14),
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
         ),
       ),
     );
@@ -110,13 +110,13 @@ class LoginScreen extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor: Colors.blue[700],
-        padding: const EdgeInsets.symmetric(vertical: 15),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(20),
         ),
-        elevation: 5,
+        elevation: 3,
       ),
-      child: const Text('Login', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      child: const Text('Login', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
     );
   }
 
@@ -126,7 +126,7 @@ class LoginScreen extends StatelessWidget {
       },
       child: const Text(
         'Forgot Password?',
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14),
       ),
     );
   }
@@ -155,15 +155,15 @@ class LoginScreen extends StatelessWidget {
 
   Widget _buildSocialLoginButton(BuildContext context, String text, IconData icon, Color color, VoidCallback onPressed) {
     return ElevatedButton.icon(
-      icon: Icon(icon, color: Colors.white),
-      label: Text(text),
+      icon: Icon(icon, color: Colors.white, size: 18),
+      label: Text(text, style: TextStyle(fontSize: 14)),
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor: color,
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(20),
         ),
       ),
     );

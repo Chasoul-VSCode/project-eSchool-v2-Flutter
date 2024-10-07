@@ -6,11 +6,9 @@ class AgendaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Agenda'),
-        backgroundColor: Colors.blue,
-      ),
+      backgroundColor: Colors.grey[900],
       body: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 8),
         children: [
           _buildAgendaItem('Meeting with Professor', 'Monday, 10:00 AM', Icons.person),
           _buildAgendaItem('Submit Assignment', 'Tuesday, 11:59 PM', Icons.assignment),
@@ -19,23 +17,25 @@ class AgendaScreen extends StatelessWidget {
           _buildAgendaItem('Career Fair', 'Friday, 9:00 AM - 4:00 PM', Icons.work),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-        },
-        tooltip: 'Add new agenda item',
-        child: const Icon(Icons.add),
-      ),
     );
   }
 
   Widget _buildAgendaItem(String title, String time, IconData icon) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      color: Colors.grey[850],
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       child: ListTile(
-        leading: Icon(icon, color: Colors.blue),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(time),
-        trailing: const Icon(Icons.arrow_forward_ios),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        leading: Icon(icon, color: const Color.fromARGB(255, 26, 126, 240), size: 20),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.white),
+        ),
+        subtitle: Text(
+          time,
+          style: TextStyle(fontSize: 12, color: Colors.grey[400]),
+        ),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.white70),
         onTap: () {
         },
       ),
