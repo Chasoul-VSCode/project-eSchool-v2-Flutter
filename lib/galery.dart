@@ -36,6 +36,7 @@ class GaleryScreen extends StatelessWidget {
         onPressed: () {
         },
         tooltip: 'Upload Image',
+        // ignore: sort_child_properties_last
         child: const Icon(Icons.add_a_photo, color: Colors.white, size: 20),
         backgroundColor: Colors.blue,
       ),

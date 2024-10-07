@@ -42,8 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton.small(
         onPressed: toggleTheme,
         tooltip: 'Toggle Theme',
-        child: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode, size: 20),
         backgroundColor: isDarkMode ? Colors.amber : Colors.indigo,
+        child: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode, size: 20),
       ),
     );
   }
@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     'Chasoul UIX',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     'Teknik Informatika',
                     style: TextStyle(fontSize: 12, color: isDarkMode ? Colors.grey[400] : Colors.grey[600]),
@@ -214,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.circular(6),
       ),
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         leading: const CircleAvatar(
           backgroundColor: Colors.blue,
           radius: 14,
@@ -251,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
       color: isDarkMode ? Colors.grey[800] : Colors.white,
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         leading: const Icon(Icons.assignment_late, color: Colors.orange, size: 20),
         title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: isDarkMode ? Colors.white : Colors.black)),
         subtitle: Text('Subject: $subject', style: TextStyle(fontSize: 12, color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),

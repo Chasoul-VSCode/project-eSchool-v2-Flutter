@@ -156,7 +156,7 @@ class LoginScreen extends StatelessWidget {
   Widget _buildSocialLoginButton(BuildContext context, String text, IconData icon, Color color, VoidCallback onPressed) {
     return ElevatedButton.icon(
       icon: Icon(icon, color: Colors.white, size: 18),
-      label: Text(text, style: TextStyle(fontSize: 14)),
+      label: Text(text, style: const TextStyle(fontSize: 14)),
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
