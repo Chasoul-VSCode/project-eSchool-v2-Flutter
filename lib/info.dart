@@ -21,7 +21,7 @@ class _InfoScreenState extends State<InfoScreen> {
 
   Future<void> _fetchData() async {
     try {
-      final response = await http.get(Uri.parse('http://172.20.10.4/api_flutter/solev.php'));
+      final response = await http.get(Uri.parse('http://172.20.10.4/schoolapp/api/solev.php'));
       if (response.statusCode == 200) {
         final decodedData = json.decode(response.body);
         if (decodedData is List) {

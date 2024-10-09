@@ -33,7 +33,7 @@ class GaleryScreenState extends State<GaleryScreen> {
 
   Future<void> _fetchData() async {
     try {
-      final response = await http.get(Uri.parse('http://172.20.10.4/api_flutter/galery.php'));
+      final response = await http.get(Uri.parse('http://172.20.10.4/schoolapp/api/galery.php'));
       if (response.statusCode == 200) {
         final decodedData = json.decode(response.body);
         if (decodedData is List) {
@@ -93,7 +93,7 @@ class GaleryScreenState extends State<GaleryScreen> {
       return;
     }
 
-    final url = Uri.parse('http://172.20.10.4/api_flutter/galery.php');
+    final url = Uri.parse('http://172.20.10.4/schoolapp/api/galery.php');
     var request = http.MultipartRequest('POST', url);
 
     try {
@@ -223,7 +223,7 @@ class GaleryScreenState extends State<GaleryScreen> {
                           ClipRRect(
                             borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                             child: Image.network(
-                              'http://172.20.10.4/api_flutter/assets/images/${item['isi_galery']}',
+                              'http://172.20.10.4/schoolapp/assets/images/${item['isi_galery']}',
                               height: 200,
                               width: double.infinity,
                               fit: BoxFit.cover,
