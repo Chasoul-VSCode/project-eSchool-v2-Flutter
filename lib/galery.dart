@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 
 class GaleryScreen extends StatefulWidget {
   const GaleryScreen({super.key});
@@ -68,14 +69,12 @@ class GaleryScreenState extends State<GaleryScreen> {
 
   Future<void> _pickImage() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        allowMultiple: false,
-      );
+      final ImagePicker picker = ImagePicker();
+      final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-      if (result != null) {
+      if (pickedFile != null) {
         setState(() {
-          _image = File(result.files.single.path!);
+          _image = File(pickedFile.path);
         });
       }
     } catch (e) {
@@ -166,7 +165,7 @@ class GaleryScreenState extends State<GaleryScreen> {
                 const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: _pickImage,
-                  child: const Text('Select Image (Optional)'),
+                  child: const Text('Select Image'),
                 ),
                 if (_image != null) Image.file(_image!, height: 100),
               ],

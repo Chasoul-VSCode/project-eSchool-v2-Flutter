@@ -65,20 +65,32 @@ function handleGet($connection) {
 }
 
 function handlePost($connection) {
-    $input = json_decode(file_get_contents('php://input'), true);
-    $judul_galery = $connection->real_escape_string($input['judul_galery']);
-    $isi_galery = $connection->real_escape_string($input['isi_galery']);
-    $tgl_post_galery = $connection->real_escape_string($input['tgl_post_galery']);
-    $status_galery = $connection->real_escape_string($input['status_galery']);
-    $kd_petugas = $connection->real_escape_string($input['kd_petugas']);
+    $judul_galery = $connection->real_escape_string($_POST['judul_galery']);
+    $tgl_post_galery = $connection->real_escape_string($_POST['tgl_post_galery']);
+    $status_galery = $connection->real_escape_string($_POST['status_galery']);
+    $kd_petugas = $connection->real_escape_string($_POST['kd_petugas']);
+
+    $isi_galery = '';
+    if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
+        $image = $_FILES['image'];
+        $image_name = time() . '_' . $image['name'];
+        $target_path = '../assets/images/' . $image_name;
+
+        if (move_uploaded_file($image['tmp_name'], $target_path)) {
+            $isi_galery = $connection->real_escape_string($image_name);
+        } else {
+            echo json_encode(["status" => "error", "message" => "Failed to upload image"]);
+            return;
+        }
+    }
 
     $sql = "INSERT INTO galery (judul_galery, isi_galery, tgl_post_galery, status_galery, kd_petugas)
             VALUES ('$judul_galery', '$isi_galery', '$tgl_post_galery', '$status_galery', '$kd_petugas')";
     
     if ($connection->query($sql)) {
-        echo json_encode(["message" => "Data added successfully"]);
+        echo json_encode(["status" => "success", "message" => "Data added successfully"]);
     } else {
-        echo json_encode(["error" => "Failed to add data: " . $connection->error]);
+        echo json_encode(["status" => "error", "message" => "Failed to add data: " . $connection->error]);
     }
 }
 
