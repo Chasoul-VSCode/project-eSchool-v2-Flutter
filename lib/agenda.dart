@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class AgendaScreen extends StatefulWidget {
-  const AgendaScreen({Key? key}) : super(key: key);
+  const AgendaScreen({super.key});
 
   @override
   AgendaScreenState createState() => AgendaScreenState();
@@ -21,7 +21,7 @@ class AgendaScreenState extends State<AgendaScreen> {
 
   Future<void> _fetchData() async {
     try {
-      final response = await http.get(Uri.parse('http://192.168.1.9/api_flutter/agenda.php'));
+      final response = await http.get(Uri.parse('http://172.20.10.4/api_flutter/agenda.php'));
       if (response.statusCode == 200) {
         final decodedData = json.decode(response.body);
         if (decodedData is List) {

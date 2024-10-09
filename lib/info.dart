@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class InfoScreen extends StatefulWidget {
-  const InfoScreen({Key? key}) : super(key: key);
+  const InfoScreen({super.key});
 
   @override
   _InfoScreenState createState() => _InfoScreenState();
@@ -21,7 +21,7 @@ class _InfoScreenState extends State<InfoScreen> {
 
   Future<void> _fetchData() async {
     try {
-      final response = await http.get(Uri.parse('http://192.168.1.9/api_flutter/solev.php'));
+      final response = await http.get(Uri.parse('http://172.20.10.4/api_flutter/solev.php'));
       if (response.statusCode == 200) {
         final decodedData = json.decode(response.body);
         if (decodedData is List) {

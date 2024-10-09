@@ -232,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
       color: isDarkMode ? Colors.grey[800] : Colors.white,
       margin: const EdgeInsets.only(bottom: 16),
       child: ListTile(
-        leading: Icon(Icons.book, color: Colors.blue),
+        leading: const Icon(Icons.book, color: Colors.blue),
         title: Text(courseName, style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -324,7 +324,7 @@ class _HomeScreenState extends State<HomeScreen> {
       color: isDarkMode ? Colors.grey[800] : Colors.white,
       margin: const EdgeInsets.only(bottom: 16),
       child: ListTile(
-        leading: Icon(Icons.schedule, color: Colors.orange),
+        leading: const Icon(Icons.schedule, color: Colors.orange),
         title: Text(subject, style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
         subtitle: Text(location, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
         trailing: Text(time, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
@@ -375,7 +375,7 @@ class _HomeScreenState extends State<HomeScreen> {
       color: isDarkMode ? Colors.grey[800] : Colors.white,
       margin: const EdgeInsets.only(bottom: 16),
       child: ListTile(
-        leading: Icon(Icons.grade, color: Colors.red),
+        leading: const Icon(Icons.grade, color: Colors.red),
         title: Text(subject, style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -429,7 +429,7 @@ class _HomeScreenState extends State<HomeScreen> {
       color: isDarkMode ? Colors.grey[800] : Colors.white,
       margin: const EdgeInsets.only(bottom: 16),
       child: ListTile(
-        leading: Icon(Icons.book, color: Colors.purple),
+        leading: const Icon(Icons.book, color: Colors.purple),
         title: Text(title, style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
         subtitle: Text(author, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
         trailing: Column(
@@ -485,7 +485,7 @@ class _HomeScreenState extends State<HomeScreen> {
       color: isDarkMode ? Colors.grey[800] : Colors.white,
       margin: const EdgeInsets.only(bottom: 16),
       child: ListTile(
-        leading: Icon(Icons.group, color: Colors.teal),
+        leading: const Icon(Icons.group, color: Colors.teal),
         title: Text(clubName, style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
         subtitle: Text(location, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
         trailing: Text(meetingTime, style: TextStyle(color: isDarkMode ? Colors.grey[400] : Colors.grey[600])),
