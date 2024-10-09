@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
 
 class GaleryScreen extends StatefulWidget {
   const GaleryScreen({super.key});
@@ -108,6 +110,11 @@ class GaleryScreenState extends State<GaleryScreen> {
         );
 
         request.files.add(multipartFile);
+
+        // Copy image to assets/images folder in the Flutter project
+        final appDir = await getApplicationDocumentsDirectory();
+        final newPath = path.join(appDir.path, 'assets', 'images', path.basename(_image!.path));
+        await _image!.copy(newPath);
       }
 
       request.fields['judul_galery'] = _titleController.text;
@@ -221,8 +228,8 @@ class GaleryScreenState extends State<GaleryScreen> {
                         children: [
                           ClipRRect(
                             borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                            child: Image.network(
-                              'http://172.20.10.4/schoolapp/assets/images/${item['isi_galery']}',
+                            child: Image.asset(
+                              'assets/images/${item['isi_galery']}',
                               height: 200,
                               width: double.infinity,
                               fit: BoxFit.cover,

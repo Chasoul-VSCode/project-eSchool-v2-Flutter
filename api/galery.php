@@ -74,10 +74,10 @@ function handlePost($connection) {
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
         $image = $_FILES['image'];
         $image_name = time() . '_' . $image['name'];
-        $target_path = '../assets/images/' . $image_name;
+        $target_path = '../../assets/images/' . $image_name;  // Updated path
 
         if (move_uploaded_file($image['tmp_name'], $target_path)) {
-            $isi_galery = $connection->real_escape_string($image_name);
+            $isi_galery = $connection->real_escape_string('assets/images/' . $image_name);  // Store relative path
         } else {
             echo json_encode(["status" => "error", "message" => "Failed to upload image"]);
             return;

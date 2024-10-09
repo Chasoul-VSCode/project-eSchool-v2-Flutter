@@ -77,7 +77,7 @@ function handlePost($connection) {
     $status_info = isset($input['status_info']) ? $connection->real_escape_string($input['status_info']) : 'active';
     $kd_petugas = isset($input['kd_petugas']) ? $connection->real_escape_string($input['kd_petugas']) : '1';
 
-    $sql = "INSERT INTO info (judul_info, isi_info, tgl_post_info, status_info, kd_petugas)
+    $sql = "INSERT INTO informasi (judul_info, isi_info, tgl_post_info, status_info, kd_petugas)
             VALUES ('$judul_info', '$isi_info', '$tgl_post_info', '$status_info', '$kd_petugas')";
     
     if ($connection->query($sql)) {
