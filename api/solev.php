@@ -39,7 +39,7 @@ $connection->close();
 function handleGet($connection) {
     if (isset($_GET['kd_info'])) {
         $kd_info = $connection->real_escape_string($_GET['kd_info']);
-        $sql = "SELECT * FROM info WHERE kd_info = '$kd_info'";
+        $sql = "SELECT * FROM informasi WHERE kd_info = '$kd_info'";
         $result = $connection->query($sql);
         if ($result && $result->num_rows > 0) {
             $data = $result->fetch_assoc();
@@ -48,7 +48,7 @@ function handleGet($connection) {
             echo json_encode(["error" => "No data found for the given kd_info"]);
         }
     } else {
-        $sql = "SELECT * FROM info";
+        $sql = "SELECT * FROM informasi";
         $result = $connection->query($sql);
         if ($result && $result->num_rows > 0) {
             $data = $result->fetch_all(MYSQLI_ASSOC);
@@ -110,7 +110,7 @@ function handlePut($connection) {
         return;
     }
 
-    $sql = "UPDATE info SET " . implode(', ', $updates) . " WHERE kd_info = '$kd_info'";
+    $sql = "UPDATE informasi SET " . implode(', ', $updates) . " WHERE kd_info = '$kd_info'";
     
     if ($connection->query($sql)) {
         echo json_encode(["message" => "Data updated successfully"]);
@@ -122,7 +122,7 @@ function handlePut($connection) {
 function handleDelete($connection) {
     if (isset($_GET['kd_info'])) {
         $kd_info = $connection->real_escape_string($_GET['kd_info']);
-        $sql = "DELETE FROM info WHERE kd_info = '$kd_info'";
+        $sql = "DELETE FROM informasi WHERE kd_info = '$kd_info'";
         if ($connection->query($sql)) {
             if ($connection->affected_rows > 0) {
                 echo json_encode(["message" => "Data deleted successfully"]);

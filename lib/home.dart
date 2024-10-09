@@ -20,9 +20,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _refreshData() async {
     // Simulate a data refresh
     await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      // Update your data here if needed
-    });
+    if (mounted) {
+      setState(() {
+        // Update your data here if needed
+      });
+    }
   }
 
   @override
