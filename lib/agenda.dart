@@ -22,7 +22,7 @@ class AgendaScreenState extends State<AgendaScreen> {
   Future<void> _fetchData() async {
     try {
       final response = await http
-          .get(Uri.parse('http://172.20.10.4/schoolapp/api/agenda.php'));
+          .get(Uri.parse('https://chasouluix.my.id/school_app/agenda.php'));
       if (response.statusCode == 200) {
         final decodedData = json.decode(response.body);
         if (decodedData is List) {
@@ -102,7 +102,7 @@ class AgendaScreenState extends State<AgendaScreen> {
     if (result != null) {
       try {
         final response = await http.put(
-          Uri.parse('http://172.20.10.4/schoolapp/api/agenda.php'),
+          Uri.parse('https://chasouluix.my.id/school_app/agenda.php'),
           body: json.encode({
             'kd_agenda': item['kd_agenda'],
             'judul_agenda': result['judul_agenda'],
@@ -153,7 +153,7 @@ class AgendaScreenState extends State<AgendaScreen> {
       try {
         final response = await http.delete(
           Uri.parse(
-              'http://172.20.10.4/schoolapp/api/agenda.php?kd_agenda=$kdAgenda'),
+              'https://chasouluix.my.id/school_app/agenda.php?kd_agenda=$kdAgenda'),
         );
 
         if (response.statusCode == 200) {
@@ -212,7 +212,7 @@ class AgendaScreenState extends State<AgendaScreen> {
     if (result != null) {
       try {
         final response = await http.post(
-          Uri.parse('http://172.20.10.4/schoolapp/api/agenda.php'),
+          Uri.parse('https://chasouluix.my.id/school_app/agenda.php'),
           body: json.encode({
             'judul_agenda': result['judul_agenda'],
             'isi_agenda': result['isi_agenda'],
@@ -251,8 +251,8 @@ class AgendaScreenState extends State<AgendaScreen> {
       backgroundColor: Colors.grey[900],
       floatingActionButton: FloatingActionButton(
         onPressed: _addInfo,
-        child: const Icon(Icons.add),
         backgroundColor: Colors.blue,
+        child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(
         onRefresh: _refreshData,

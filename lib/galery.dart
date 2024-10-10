@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as path;
 
 class GaleryScreen extends StatefulWidget {
   const GaleryScreen({super.key});
@@ -36,14 +33,16 @@ class GaleryScreenState extends State<GaleryScreen> {
 
   Future<void> _fetchData() async {
     try {
-      final response = await http.get(Uri.parse('http://172.20.10.4/schoolapp/api/galery.php'));
+      final response = await http.get(Uri.parse('https://chasouluix.my.id/school_app/galery.php'));
       if (response.statusCode == 200) {
         final decodedData = json.decode(response.body);
         if (decodedData is List) {
-          setState(() {
-            _data = decodedData;
-            _isLoading = false;
-          });
+          if (mounted) {
+            setState(() {
+              _data = decodedData;
+              _isLoading = false;
+            });
+          }
         } else {
           throw Exception('Invalid data format');
         }
@@ -51,10 +50,10 @@ class GaleryScreenState extends State<GaleryScreen> {
         throw Exception('Failed to load data: ${response.statusCode}');
       }
     } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
       if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${e.toString()}')),
         );
@@ -87,35 +86,28 @@ class GaleryScreenState extends State<GaleryScreen> {
   }
 
   Future<void> _uploadData() async {
-    if (_titleController.text.isEmpty || _descriptionController.text.isEmpty) {
+    if (_titleController.text.isEmpty || _descriptionController.text.isEmpty || _image == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a title and description')),
+        const SnackBar(content: Text('Please enter a title, description, and select an image')),
       );
       return;
     }
 
-    final url = Uri.parse('http://172.20.10.4/schoolapp/api/galery.php');
+    final url = Uri.parse('https://chasouluix.my.id/school_app/galery.php');
     var request = http.MultipartRequest('POST', url);
 
     try {
-      if (_image != null) {
-        var fileStream = http.ByteStream(_image!.openRead());
-        var fileLength = await _image!.length();
+      var fileStream = http.ByteStream(_image!.openRead());
+      var fileLength = await _image!.length();
 
-        var multipartFile = http.MultipartFile(
-          'image',
-          fileStream,
-          fileLength,
-          filename: _image!.path.split('/').last,
-        );
+      var multipartFile = http.MultipartFile(
+        'image',
+        fileStream,
+        fileLength,
+        filename: _image!.path.split('/').last,
+      );
 
-        request.files.add(multipartFile);
-
-        // Copy image to assets/images folder in the Flutter project
-        final appDir = await getApplicationDocumentsDirectory();
-        final newPath = path.join(appDir.path, 'assets', 'images', path.basename(_image!.path));
-        await _image!.copy(newPath);
-      }
+      request.files.add(multipartFile);
 
       request.fields['judul_galery'] = _titleController.text;
       request.fields['isi_galery'] = _descriptionController.text;
@@ -228,8 +220,8 @@ class GaleryScreenState extends State<GaleryScreen> {
                         children: [
                           ClipRRect(
                             borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                            child: Image.asset(
-                              'assets/images/${item['isi_galery']}',
+                            child: Image.network(
+                              'https://chasouluix.my.id/school_app/${item['isi_galery']}',
                               height: 200,
                               width: double.infinity,
                               fit: BoxFit.cover,

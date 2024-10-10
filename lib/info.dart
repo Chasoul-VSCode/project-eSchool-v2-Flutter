@@ -22,7 +22,7 @@ class _InfoScreenState extends State<InfoScreen> {
   Future<void> _fetchData() async {
     try {
       final response = await http
-          .get(Uri.parse('http://172.20.10.4/schoolapp/api/solev.php'));
+          .get(Uri.parse('https://chasouluix.my.id/school_app/solev.php'));
       if (response.statusCode == 200) {
         final decodedData = json.decode(response.body);
         if (decodedData is List) {
@@ -102,7 +102,7 @@ class _InfoScreenState extends State<InfoScreen> {
     if (result != null) {
       try {
         final response = await http.put(
-          Uri.parse('http://172.20.10.4/schoolapp/api/solev.php'),
+          Uri.parse('https://chasouluix.my.id/school_app/solev.php'),
           body: json.encode({
             'kd_info': item['kd_info'],
             'judul_info': result['judul_info'],
@@ -149,7 +149,7 @@ class _InfoScreenState extends State<InfoScreen> {
       try {
         final response = await http.delete(
           Uri.parse(
-              'http://172.20.10.4/schoolapp/api/solev.php?kd_info=$kdInfo'),
+              'https://chasouluix.my.id/school_app/solev.php?kd_info=$kdInfo'),
         );
 
         if (response.statusCode == 200) {
@@ -208,7 +208,7 @@ class _InfoScreenState extends State<InfoScreen> {
     if (result != null) {
       try {
         final response = await http.post(
-          Uri.parse('http://172.20.10.4/schoolapp/api/solev.php'),
+          Uri.parse('https://chasouluix.my.id/school_app/solev.php'),
           body: json.encode({
             'judul_info': result['judul_info'],
             'isi_info': result['isi_info'],
@@ -243,8 +243,8 @@ class _InfoScreenState extends State<InfoScreen> {
       backgroundColor: Colors.grey[900],
       floatingActionButton: FloatingActionButton(
         onPressed: _addInfo,
-        child: const Icon(Icons.add),
         backgroundColor: Colors.blue,
+        child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(
         onRefresh: _refreshData,
