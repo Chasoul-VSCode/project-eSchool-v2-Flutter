@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 import 'welcome.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  String _errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
@@ -58,14 +68,20 @@ class LoginScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
-                    _buildTextField('Username', Icons.person),
+                    _buildTextField('Username', Icons.person, _usernameController),
                     const SizedBox(height: 15),
-                    _buildTextField('Password', Icons.lock, isPassword: true),
-                    const SizedBox(height: 20),
+                    _buildTextField('Password', Icons.lock, _passwordController, isPassword: true),
+                    const SizedBox(height: 10),
+                    Text(
+                      _errorMessage,
+                      style: const TextStyle(color: Colors.red, fontSize: 14),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 10),
                     _buildLoginButton(context),
                     const SizedBox(height: 10),
                     _buildForgotPasswordButton(),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     _buildSocialLoginButtons(context),
                   ],
                 ),
@@ -77,7 +93,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(String hintText, IconData icon, {bool isPassword = false}) {
+  Widget _buildTextField(String hintText, IconData icon, TextEditingController controller, {bool isPassword = false}) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.9),
@@ -91,6 +107,7 @@ class LoginScreen extends StatelessWidget {
         ],
       ),
       child: TextField(
+        controller: controller,
         obscureText: isPassword,
         style: const TextStyle(color: Colors.black87, fontSize: 14),
         decoration: InputDecoration(
@@ -170,15 +187,26 @@ class LoginScreen extends StatelessWidget {
   }
 
   void _handleLogin(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-    );
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+
+    if (username == 'sha' && password == '123') {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const WelcomeScreen(username: '',)),
+      );
+    } else {
+      setState(() {
+        _errorMessage = 'Invalid username or password';
+      });
+    }
   }
 
   void _handleGoogleLogin(BuildContext context) {
+    // Implement Google login logic here
   }
 
   void _handleGitHubLogin(BuildContext context) {
+    // Implement GitHub login logic here
   }
 }

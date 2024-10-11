@@ -108,7 +108,6 @@ class GaleryScreenState extends State<GaleryScreen> {
       );
 
       request.files.add(multipartFile);
-
       request.fields['judul_galery'] = _titleController.text;
       request.fields['isi_galery'] = _descriptionController.text;
       request.fields['tgl_post_galery'] = DateTime.now().toIso8601String();
@@ -143,12 +142,115 @@ class GaleryScreenState extends State<GaleryScreen> {
     }
   }
 
-  void _showUploadDialog() {
+  Future<void> _editData(String id) async {
+    if (_titleController.text.isEmpty || _descriptionController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a title and description')),
+      );
+      return;
+    }
+
+    final url = Uri.parse('https://chasouluix.my.id/school_app/galery.php');
+    var request = http.MultipartRequest('POST', url);
+
+    request.fields['kd_galery'] = id;
+    request.fields['judul_galery'] = _titleController.text;
+    request.fields['isi_galery'] = _descriptionController.text;
+    request.fields['tgl_post_galery'] = DateTime.now().toIso8601String();
+    request.fields['status_galery'] = '1';
+    request.fields['kd_petugas'] = '1';
+
+    if (_image != null) {
+      var fileStream = http.ByteStream(_image!.openRead());
+      var fileLength = await _image!.length();
+
+      var multipartFile = http.MultipartFile(
+        'image',
+        fileStream,
+        fileLength,
+        filename: _image!.path.split('/').last,
+      );
+
+      request.files.add(multipartFile);
+    }
+
+    try {
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if (responseData['status'] == 'success') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Data edited successfully')),
+          );
+          _titleController.clear();
+          _descriptionController.clear();
+          setState(() {
+            _image = null;
+          });
+          await _refreshData();
+        } else {
+          throw Exception('Edit failed: ${responseData['message']}');
+        }
+      } else {
+        throw Exception('Failed to edit data: ${response.statusCode}');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error editing data: ${e.toString()}')),
+      );
+    }
+  }
+
+  Future<void> _deleteData(String id) async {
+    final url = Uri.parse('https://chasouluix.my.id/school_app/galery.php');
+
+    try {
+      final response = await http.post(
+        url,
+        body: {
+          'kd_galery': id,
+          'action': 'delete',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        if (responseData['status'] == 'success') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Data deleted successfully')),
+          );
+          await _refreshData();
+        } else {
+          throw Exception('Delete failed: ${responseData['message']}');
+        }
+      } else {
+        throw Exception('Failed to delete data: ${response.statusCode}');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error deleting data: ${e.toString()}')),
+      );
+    }
+  }
+
+  void _showUploadDialog({Map<String, dynamic>? item}) {
+    if (item != null) {
+      _titleController.text = item['judul_galery'];
+      _descriptionController.text = item['isi_galery'];
+      _image = null; // Keep the image null when editing
+    } else {
+      _titleController.clear();
+      _descriptionController.clear();
+      _image = null;
+    }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Upload Data'),
+          title: Text(item == null ? 'Upload Data' : 'Edit Data'),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -180,9 +282,9 @@ class GaleryScreenState extends State<GaleryScreen> {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                _uploadData();
+                item == null ? _uploadData() : _editData(item['kd_galery']);
               },
-              child: const Text('Upload'),
+              child: Text(item == null ? 'Upload' : 'Edit'),
             ),
           ],
         );
@@ -195,7 +297,7 @@ class GaleryScreenState extends State<GaleryScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[900],
       floatingActionButton: FloatingActionButton(
-        onPressed: _showUploadDialog,
+        onPressed: () => _showUploadDialog(),
         child: const Icon(Icons.add_photo_alternate),
       ),
       body: RefreshIndicator(
@@ -218,21 +320,65 @@ class GaleryScreenState extends State<GaleryScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                            child: Image.network(
-                              'https://chasouluix.my.id/school_app/${item['isi_galery']}',
-                              height: 200,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Container(
+                          Stack(
+                            alignment: Alignment.topRight,
+                            children: [
+                              ClipRRect(
+                                borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                                child: Image.network(
+                                  'https://chasouluix.my.id/school_app/${item['isi_galery']}',
                                   height: 200,
-                                  color: Colors.grey[700],
-                                  child: const Center(child: Icon(Icons.error)),
-                                );
-                              },
-                            ),
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Container(
+                                      height: 200,
+                                      color: Colors.grey[700],
+                                      child: const Center(child: Icon(Icons.error)),
+                                    );
+                                  },
+                                ),
+                              ),
+                              PopupMenuButton<String>(
+                                icon: const Icon(Icons.more_vert, color: Colors.white),
+                                onSelected: (String result) {
+                                  if (result == 'edit') {
+                                    _showUploadDialog(item: item);
+                                  } else if (result == 'delete') {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text('Confirm Deletion'),
+                                        content: const Text('Are you sure you want to delete this item?'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.of(context).pop(),
+                                            child: const Text('Cancel'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              _deleteData(item['kd_galery']);
+                                            },
+                                            child: const Text('Delete'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                },
+                                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                                  const PopupMenuItem<String>(
+                                    value: 'edit',
+                                    child: Text('Edit'),
+                                  ),
+                                  const PopupMenuItem<String>(
+                                    value: 'delete',
+                                    child: Text('Delete'),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                           Padding(
                             padding: const EdgeInsets.all(16),
@@ -248,13 +394,7 @@ class GaleryScreenState extends State<GaleryScreen> {
                                   ),
                                 ),
                                 const SizedBox(height: 8),
-                                Text(
-                                  item['isi_galery'] ?? '',
-                                  style: TextStyle(
-                                    color: Colors.grey[300],
-                                    fontSize: 14,
-                                  ),
-                                ),
+                               
                                 const SizedBox(height: 12),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

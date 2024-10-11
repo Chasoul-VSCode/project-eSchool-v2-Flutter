@@ -6,7 +6,7 @@ import 'galery.dart';
 import 'login.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({super.key});
+  const WelcomeScreen({super.key, required String username});
 
   @override
   // ignore: library_private_types_in_public_api
