@@ -1,4 +1,5 @@
 # schoolapp
+![IMG_8321](https://github.com/user-attachments/assets/b3bd10f7-01fd-4674-948f-63109481eda4)
 
 A new Flutter project.
 
